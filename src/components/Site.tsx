@@ -159,10 +159,9 @@ function Hero() {
     target: ref,
     offset: ["start start", "end end"],
   });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 0.82]);
-  const opacity = useTransform(scrollYProgress, [0.15, 0.7, 1], [1, 0.68, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -150]);
-  const gridY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 180]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 0.94]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -80]);
+  const gridY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 150]);
 
   const stars = [
     { left: "8%", top: "18%", size: 3, delay: 0.1 },
@@ -217,7 +216,7 @@ function Hero() {
         </div>
 
         <motion.div
-          style={{ scale, opacity, y }}
+          style={{ scale, y }}
           className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-20 md:px-8"
         >
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 shadow-[0_0_30px_rgba(255,255,255,0.08)] backdrop-blur-sm">
