@@ -155,68 +155,17 @@ function ContactLinks({ className = "" }: { className?: string }) {
 function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 0.94]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -80]);
-  const gridY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 150]);
-
-  const stars = [
-    { left: "8%", top: "18%", size: 3, delay: 0.1 },
-    { left: "18%", top: "62%", size: 2, delay: 0.8 },
-    { left: "24%", top: "38%", size: 4, delay: 1.4 },
-    { left: "32%", top: "22%", size: 2, delay: 2.1 },
-    { left: "42%", top: "48%", size: 5, delay: 0.5 },
-    { left: "52%", top: "72%", size: 3, delay: 1.9 },
-    { left: "58%", top: "28%", size: 4, delay: 2.8 },
-    { left: "66%", top: "18%", size: 2, delay: 1.2 },
-    { left: "74%", top: "56%", size: 3, delay: 0.3 },
-    { left: "82%", top: "34%", size: 5, delay: 1.6 },
-    { left: "88%", top: "64%", size: 3, delay: 2.4 },
-    { left: "13%", top: "78%", size: 2, delay: 1.1 },
-  ];
 
   return (
     <section id="home" ref={ref} className="relative min-h-[100svh]">
       <div className="sticky top-0 flex min-h-[100svh] items-center overflow-hidden">
-        <motion.div
-          style={{ y: gridY }}
-          className="hero-shell absolute inset-0"
-          aria-hidden
-        />
-        <motion.div
-          style={{ y: gridY }}
-          className="hero-grid absolute inset-0 opacity-80"
-          aria-hidden
-        />
-
-        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-          {stars.map((star, index) => (
-            <motion.span
-              key={`${star.left}-${star.top}`}
-              initial={{ opacity: 0.2, scale: 0.8 }}
-              animate={{ opacity: [0.22, 1, 0.3], scale: [0.8, 1.5, 0.8] }}
-              transition={{
-                duration: 4 + index * 0.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: star.delay,
-              }}
-              className="absolute rounded-full bg-white/90 shadow-[0_0_18px_rgba(255,255,255,0.9)]"
-              style={{
-                left: star.left,
-                top: star.top,
-                width: star.size,
-                height: star.size,
-              }}
-            />
-          ))}
-        </div>
+        <div className="hero-shell absolute inset-0" aria-hidden />
+        <div className="hero-grid absolute inset-0 opacity-80" aria-hidden />
 
         <motion.div
-          style={{ scale, y }}
+          initial={reduce ? false : { opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-20 md:px-8"
         >
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 shadow-[0_0_30px_rgba(255,255,255,0.08)] backdrop-blur-sm">
