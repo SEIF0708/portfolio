@@ -159,10 +159,10 @@ function Hero() {
     target: ref,
     offset: ["start start", "end end"],
   });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 0.88]);
-  const opacity = useTransform(scrollYProgress, [0.25, 1], [1, reduce ? 1 : 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -90]);
-  const gridY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 120]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 0.82]);
+  const opacity = useTransform(scrollYProgress, [0.15, 0.7, 1], [1, 0.68, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -150]);
+  const gridY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 180]);
 
   const stars = [
     { left: "8%", top: "18%", size: 3, delay: 0.1 },
@@ -205,7 +205,7 @@ function Hero() {
                 ease: "easeInOut",
                 delay: star.delay,
               }}
-              className="absolute rounded-full bg-white/90 shadow-[0_0_18px_rgba(125,249,205,0.9)]"
+              className="absolute rounded-full bg-white/90 shadow-[0_0_18px_rgba(255,255,255,0.9)]"
               style={{
                 left: star.left,
                 top: star.top,
@@ -220,21 +220,21 @@ function Hero() {
           style={{ scale, opacity, y }}
           className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-20 md:px-8"
         >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-acc/30 bg-white/3 px-3 py-1.5 shadow-[0_0_30px_rgba(125,249,205,0.1)] backdrop-blur-sm">
-            <span className="h-2 w-2 rounded-full bg-acc shadow-[0_0_18px_rgba(125,249,205,0.8)]" />
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 shadow-[0_0_30px_rgba(255,255,255,0.08)] backdrop-blur-sm">
+            <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_16px_rgba(255,255,255,0.7)]" />
             <p
-              className={`${mono} text-[10px] uppercase tracking-[0.25em] text-acc`}
+              className={`${mono} text-[10px] uppercase tracking-[0.25em] text-white`}
             >
               available for new opportunities
             </p>
           </div>
 
-          <p className={`${mono} text-sm text-acc`}>~/seif $ whoami</p>
+          <p className={`${mono} text-sm text-white`}>~/seif $ whoami</p>
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 text-[2.7rem] font-semibold leading-[0.96] tracking-[-0.065em] sm:text-6xl md:text-[7.5rem]"
+            className="mt-4 text-[2.7rem] font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-6xl md:text-[7.5rem]"
           >
             SEIF BEN
             <br />
@@ -242,10 +242,10 @@ function Hero() {
           </motion.h1>
 
           <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-mute md:text-base">
-            <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5">
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-white/85">
               Technology &amp; Business Development
             </span>
-            <span className="rounded-full border border-acc/30 bg-acc/5 px-3 py-1.5 text-acc">
+            <span className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 text-white/90">
               Software Engineer &amp; Digital Solutions Builder
             </span>
           </div>
@@ -272,13 +272,13 @@ function Hero() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href="#work"
-              className={`${mono} rounded-full bg-acc px-6 py-3.5 text-center text-sm font-semibold text-[#04110a] shadow-[0_0_30px_rgba(125,249,205,0.28)] transition-transform hover:scale-[1.03]`}
+              className={`${mono} rounded-full bg-white px-6 py-3.5 text-center text-sm font-semibold text-black shadow-[0_0_24px_rgba(255,255,255,0.18)] transition-transform hover:scale-[1.03]`}
             >
               VIEW MY WORK
             </a>
             <a
               href="#contact"
-              className={`${mono} rounded-full border border-acc/30 bg-white/[0.02] px-6 py-3.5 text-center text-sm font-semibold text-acc transition-colors hover:bg-acc/10`}
+              className={`${mono} rounded-full border border-white/15 bg-white/[0.02] px-6 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-white/[0.06]`}
             >
               LET&apos;S CONNECT
             </a>
@@ -498,7 +498,7 @@ function About() {
     <Section id="about">
       <Heading path="~/about" title="About" />
       <div ref={ref}>
-        <p className="max-w-4xl text-2xl font-medium leading-snug sm:text-3xl md:text-4xl">
+        <p className="max-w-5xl text-[2rem] font-medium leading-[1.12] tracking-[-0.04em] sm:text-[2.7rem] md:text-[4rem]">
           {words.map((w, i) =>
             reduce ? (
               <span key={i} className="mr-[0.25em] inline-block">
