@@ -70,7 +70,7 @@ function Header() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 md:px-8">
         <a href="#home" className={`${mono} text-sm font-semibold`}>
-          saif<span className="text-acc">@</span>portfolio
+          seif<span className="text-acc">@</span>portfolio
         </a>
         <nav aria-label="Primary" className="hidden gap-6 lg:flex">
           {nav.map(([id, l]) => (
