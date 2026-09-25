@@ -61,13 +61,6 @@ export const projects: Project[] = [
     links: [["Source", "https://github.com/SEIF0708/carthagene-landing"]],
     sections: [["Overview", "A landing page giving the brand a clear online presence. Details are kept intentionally brief; ask me for more."]],
   },
-  {
-    id: "rajhi", name: "RAJHI & FERJANI", tag: "Business / Digital Project",
-    desc: "A corporate trade website presenting products and the company to international B2B audiences.",
-    tech: ["JavaScript", "HTML", "CSS"],
-    links: [["Source", "https://github.com/SEIF0708/rajhi-ferjani-trade-landing"]],
-    sections: [["Focus", ["Corporate web presence", "Product presentation", "B2B communication", "International business positioning", "Digital presence"]]],
-  },
 ];
 
 export const beyond = [
@@ -102,7 +95,6 @@ export const stack: [string, [string, Level][]][] = [
 export const repos = [
   ["menu-qr", "QR menu application behind the BonPlan concept.", "TypeScript", "https://github.com/SEIF0708/menu-qr"],
   ["carthagene-landing", "Landing website for the Carthagene project.", "HTML", "https://github.com/SEIF0708/carthagene-landing"],
-  ["rajhi-ferjani-trade-landing", "Corporate trade website for Rajhi & Ferjani.", "JavaScript", "https://github.com/SEIF0708/rajhi-ferjani-trade-landing"],
 ];
 
 export const open = [
