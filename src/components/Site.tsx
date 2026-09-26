@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -9,7 +9,15 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
-import { Mail, Menu, X, ChevronDown, ExternalLink } from "lucide-react";
+import {
+  Mail,
+  Menu,
+  X,
+  ChevronDown,
+  ExternalLink,
+  Moon,
+  Sun,
+} from "lucide-react";
 import {
   approach,
   beyond,
@@ -48,14 +56,25 @@ function Heading({
     </div>
   );
 }
-const Section = ({ id, children }: { id: string; children: ReactNode }) => (
-  <section
-    id={id}
-    className="mx-auto w-full max-w-6xl px-5 py-20 md:px-8 md:py-28"
-  >
-    {children}
-  </section>
-);
+const Section = ({ id, children }: { id: string; children: ReactNode }) => {
+  const reduce = useReducedMotion();
+
+  return (
+    <motion.section
+      id={id}
+      className="mx-auto w-full max-w-6xl px-5 py-20 md:px-8 md:py-28"
+      initial={reduce ? false : { opacity: 0, y: 32 }}
+      whileInView={reduce ? {} : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{
+        duration: 0.75,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      {children}
+    </motion.section>
+  );
+};
 const Chip = ({ children }: { children: ReactNode }) => (
   <span
     className={`${mono} rounded border border-line px-2 py-1 text-xs text-mute`}
@@ -64,15 +83,35 @@ const Chip = ({ children }: { children: ReactNode }) => (
   </span>
 );
 
-function Header() {
+function Header({
+  theme,
+  onToggleTheme,
+}: {
+  theme: "dark" | "light";
+  onToggleTheme: () => void;
+}) {
   const [o, setO] = useState(false);
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 md:px-8">
-        <a href="#home" className={`${mono} text-sm font-semibold`}>
-          seif<span className="text-acc">@</span>portfolio
+        <a href="#home" className="flex items-center gap-3" aria-label="Seif home">
+          <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border border-line bg-panel">
+            <span className="absolute inset-[5px] rounded-lg border border-acc/45" />
+            <span className="relative text-lg font-black tracking-[-0.12em] text-acc">
+              S
+            </span>
+          </div>
+          <div className="leading-none">
+            <div className={`${mono} text-[10px] uppercase tracking-[0.28em] text-mute`}>
+              seif
+            </div>
+            <div className={`${mono} mt-1 text-[8px] uppercase tracking-[0.38em] text-mute/75`}>
+              portfolio
+            </div>
+          </div>
         </a>
-        <nav aria-label="Primary" className="hidden gap-6 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
           {nav.map(([id, l]) => (
             <a
               key={id}
@@ -82,15 +121,38 @@ function Header() {
               {l}
             </a>
           ))}
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            aria-label={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+            className="ml-2 flex h-8 w-8 items-center justify-center rounded-full border border-line bg-panel text-fg transition-transform hover:scale-105"
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
         </nav>
-        <button
-          className="p-2 lg:hidden"
-          aria-label={o ? "Close menu" : "Open menu"}
-          aria-expanded={o}
-          onClick={() => setO(!o)}
-        >
-          {o ? <X size={22} /> : <Menu size={22} />}
-        </button>
+
+        <div className="flex items-center gap-2 lg:hidden">
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            aria-label={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-line bg-panel text-fg"
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+          <button
+            className="p-2"
+            aria-label={o ? "Close menu" : "Open menu"}
+            aria-expanded={o}
+            onClick={() => setO(!o)}
+          >
+            {o ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
       {o && (
         <nav
@@ -152,9 +214,10 @@ function ContactLinks({ className = "" }: { className?: string }) {
   );
 }
 
-function Hero() {
+function Hero({ theme }: { theme: "dark" | "light" }) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const isLight = theme === "light";
 
   return (
     <section id="home" ref={ref} className="relative min-h-[100svh]">
@@ -168,37 +231,69 @@ function Hero() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-20 md:px-8"
         >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 shadow-[0_0_30px_rgba(255,255,255,0.08)] backdrop-blur-sm">
-            <span className="h-2 w-2 rounded-full bg-white shadow-[0_0_16px_rgba(255,255,255,0.7)]" />
+          <div
+            className={`mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 shadow-[0_0_30px_rgba(255,255,255,0.08)] backdrop-blur-sm ${
+              isLight
+                ? "border-black/10 bg-black/[0.03]"
+                : "border-white/10 bg-white/[0.02]"
+            }`}
+          >
+            <span
+              className={`h-2 w-2 rounded-full shadow-[0_0_16px_rgba(255,255,255,0.7)] ${
+                isLight ? "bg-black" : "bg-white"
+              }`}
+            />
             <p
-              className={`${mono} text-[10px] uppercase tracking-[0.25em] text-white`}
+              className={`${mono} text-[10px] uppercase tracking-[0.25em] ${
+                isLight ? "text-black" : "text-white"
+              }`}
             >
               available for new opportunities
             </p>
           </div>
 
-          <p className={`${mono} text-sm text-white`}>~/seif $ whoami</p>
+          <p
+            className={`${mono} text-sm ${isLight ? "text-black" : "text-white"}`}
+          >
+            ~/seif $ whoami
+          </p>
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 text-[2.7rem] font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-6xl md:text-[7.5rem]"
+            className={`mt-4 text-[2.7rem] font-semibold leading-[0.92] tracking-[-0.07em] sm:text-6xl md:text-[7.5rem] ${
+              isLight ? "text-black" : "text-white"
+            }`}
           >
             SEIF BEN
             <br />
             ABDALLAH
           </motion.h1>
 
-          <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-mute md:text-base">
-            <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-white/85">
+          <div className="mt-5 flex flex-wrap items-center gap-3 text-sm md:text-base">
+            <span
+              className={`rounded-full border px-3 py-1.5 ${
+                isLight
+                  ? "border-black/10 bg-black/[0.03] text-black/85"
+                  : "border-white/10 bg-white/[0.03] text-white/85"
+              }`}
+            >
               Technology &amp; Business Development
             </span>
-            <span className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 text-white/90">
+            <span
+              className={`rounded-full border px-3 py-1.5 ${
+                isLight
+                  ? "border-black/10 bg-black/[0.02] text-black/90"
+                  : "border-white/10 bg-white/[0.02] text-white/90"
+              }`}
+            >
               Software Engineer &amp; Digital Solutions Builder
             </span>
           </div>
 
-          <p className="mt-6 max-w-2xl text-base text-mute md:text-xl">
+          <p
+            className={`mt-6 max-w-2xl text-base md:text-xl ${isLight ? "text-black/75" : "text-mute"}`}
+          >
             I build practical digital products and help businesses turn ideas,
             processes and opportunities into technology-driven solutions.
           </p>
@@ -220,15 +315,32 @@ function Hero() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href="#work"
-              className={`${mono} rounded-full bg-white px-6 py-3.5 text-center text-sm font-semibold text-black shadow-[0_0_24px_rgba(255,255,255,0.18)] transition-transform hover:scale-[1.03]`}
+              className={`${mono} rounded-full px-6 py-3.5 text-center text-sm font-semibold shadow-[0_0_24px_rgba(255,255,255,0.18)] transition-transform hover:scale-[1.03] ${
+                isLight ? "bg-black text-white" : "bg-white text-black"
+              }`}
             >
               VIEW MY WORK
             </a>
             <a
               href="#contact"
-              className={`${mono} rounded-full border border-white/15 bg-white/[0.02] px-6 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-white/[0.06]`}
+              className={`${mono} rounded-full border px-6 py-3.5 text-center text-sm font-semibold transition-colors ${
+                isLight
+                  ? "border-black/15 bg-black/[0.02] text-black hover:bg-black/[0.04]"
+                  : "border-white/15 bg-white/[0.02] text-white hover:bg-white/[0.06]"
+              }`}
             >
               LET&apos;S CONNECT
+            </a>
+            <a
+              href="/cv-seif-ben-abdallah-software.pdf"
+              download
+              className={`${mono} rounded-full border px-6 py-3.5 text-center text-sm font-semibold transition-colors ${
+                isLight
+                  ? "border-black/15 bg-black/[0.02] text-black hover:bg-black/[0.04]"
+                  : "border-white/15 bg-white/[0.02] text-white hover:bg-white/[0.06]"
+              }`}
+            >
+              DOWNLOAD CV
             </a>
           </div>
 
@@ -393,6 +505,8 @@ function Work() {
 }
 
 function Business() {
+  const reduce = useReducedMotion();
+
   return (
     <Section id="business">
       <Heading
@@ -401,15 +515,38 @@ function Business() {
         sub="Technology is only valuable when it solves a real business problem."
       />
       <div className="grid gap-4 md:grid-cols-3">
-        {beyond.map(([n, t, k, d]) => (
-          <div key={n} className="rounded-lg border border-line bg-panel p-6">
-            <p className={`${mono} text-xs text-acc`}>{n}</p>
+        {beyond.map(([n, t, k, d], index) => (
+          <motion.div
+            key={n}
+            className="group rounded-lg border border-line bg-panel p-5 md:p-6"
+            initial={
+              reduce
+                ? false
+                : { opacity: 0, y: 30, scale: 0.97, filter: "blur(6px)" }
+            }
+            whileInView={
+              reduce ? {} : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+            }
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+              delay: index * 0.14,
+            }}
+            whileHover={reduce ? undefined : { y: -6, scale: 1.01 }}
+            style={{
+              willChange: "transform, filter",
+              transform: "translateZ(0)",
+            }}
+          >
+            <div className="h-px w-12 bg-gradient-to-r from-white/60 via-white/20 to-transparent transition-all duration-500 group-hover:w-16 group-hover:from-white/80" />
+            <p className={`${mono} mt-4 text-xs text-acc`}>{n}</p>
             <h3 className="mt-3 text-xl font-semibold uppercase tracking-tight">
               {t}
             </h3>
             <p className={`${mono} mt-3 text-xs text-mute`}>{k}</p>
-            <p className="mt-4 text-mute">{d}</p>
-          </div>
+            <p className="mt-4 text-sm text-mute md:text-base">{d}</p>
+          </motion.div>
         ))}
       </div>
     </Section>
@@ -672,13 +809,20 @@ function Contact() {
               className={field}
             />
           </label>
+          <a
+            href="/cv-seif-ben-abdallah-software.pdf"
+            download
+            className={`${mono} block w-full rounded border border-line bg-panel px-6 py-3.5 text-center text-sm font-semibold text-fg transition-colors hover:border-acc hover:text-acc`}
+          >
+            DOWNLOAD CV
+          </a>
           <button
             className={`${mono} w-full rounded bg-acc px-6 py-3.5 text-sm font-semibold text-[#04110a]`}
           >
             OPEN IN EMAIL APP
           </button>
           <p className="text-xs text-mute">
-            This opens your email app with the message ready to send.
+            Download my CV or send a message directly from the form below.
           </p>
         </form>
       </div>
@@ -687,11 +831,22 @@ function Contact() {
 }
 
 export default function Site() {
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
   return (
     <>
-      <Header />
+      <Header
+        theme={theme}
+        onToggleTheme={() =>
+          setTheme((prev) => (prev === "dark" ? "light" : "dark"))
+        }
+      />
       <main>
-        <Hero />
+        <Hero theme={theme} />
         <WhatIDo />
         <Work />
         <Business />

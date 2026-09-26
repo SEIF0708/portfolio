@@ -12,13 +12,34 @@ export const metadata: Metadata = {
   title,
   description,
   authors: [{ name: "Seif Ben Abdallah" }],
-  keywords: ["Software Engineer", "Digital Solutions", "B2B Partnerships", "Business Development", "Next.js"],
-  openGraph: { title, description, url: `${url}/en`, siteName: "Seif Ben Abdallah", type: "website", locale: "en_US" },
+  keywords: [
+    "Software Engineer",
+    "Digital Solutions",
+    "B2B Partnerships",
+    "Business Development",
+    "Next.js",
+  ],
+  openGraph: {
+    title,
+    description,
+    url: `${url}/en`,
+    siteName: "Seif Ben Abdallah",
+    type: "website",
+    locale: "en_US",
+  },
   twitter: { card: "summary_large_image", title, description },
 };
-export const viewport: Viewport = { themeColor: "#07090a", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = {
+  themeColor: "#07090a",
+  width: "device-width",
+  initialScale: 1,
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
