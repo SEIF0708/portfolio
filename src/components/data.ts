@@ -43,7 +43,7 @@ export const projects: Project[] = [
     id: "skin", name: "SKIN LESION CLASSIFICATION", tag: "Computer Vision / Deep Learning",
     desc: "An academic machine-learning project classifying skin lesion images with a ResNet50 backbone, transfer learning and an attention head.",
     tech: ["Python", "PyTorch", "ResNet50", "Albumentations", "Google Colab"],
-    links: [["GitHub profile", "https://github.com/SEIF0708"]],
+    links: [["GitHub profile", "https://github.com/SEIF0708"], ["Preview", "https://frontend-rouge-alpha-49.vercel.app/login"]],
     sections: [
       ["Problem", "Classify skin lesion images as a binary task, where class imbalance makes plain accuracy misleading."],
       ["Dataset / preprocessing", "Image preprocessing and augmentation with Albumentations to improve generalization on limited data."],
